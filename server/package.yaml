@@ -1,0 +1,83 @@
+name: purescriptify
+version: 0.1.0.0
+github: "dnikolovv/purescriptify"
+license: BSD3
+author: "Dobromir Nikolov"
+maintainer: "example@example.com"
+copyright: "2022 Dobromir Nikolov"
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description: Please see the README on GitHub at <https://github.com/githubuser/gentypes-server#readme>
+
+dependencies:
+  - base >= 4.7 && < 5
+  - rio
+  - aeson
+  - mtl
+  - wai
+  - wai-extra
+  - wai-cors
+  - warp
+  - random
+  - uuid
+  - generic-lens
+  - servant
+  - servant-auth-server
+  - servant-errors
+  - servant-server
+  - servant-foreign
+  - servant-purescript
+  - purescript-bridge
+  - jose
+  - effectful
+  - effectful-th
+  - exceptions
+
+library:
+  source-dirs: src
+
+default-extensions:
+  - NoImplicitPrelude
+  - OverloadedStrings
+
+ghc-options:
+  - -Wall
+  - -Werror
+
+executables:
+  gentypes-codegen:
+    main: Main.hs
+    source-dirs: codegen
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - purescriptify
+
+  gentypes-server-exe:
+    main: Main.hs
+    source-dirs: app
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - purescriptify
+
+tests:
+  gentypes-server-test:
+    main: Spec.hs
+    source-dirs: test
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - purescriptify
