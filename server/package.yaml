@@ -38,6 +38,11 @@ dependencies:
   - effectful
   - effectful-th
   - exceptions
+  - process
+  - casing
+  - xml
+  - file-embed
+  - bytestring
 
 library:
   source-dirs: src

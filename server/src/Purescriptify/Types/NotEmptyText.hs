@@ -3,7 +3,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE ViewPatterns #-}
 
-module Purescriptify.API.Types.NotEmptyText
+module Purescriptify.Types.NotEmptyText
   ( NotEmptyText,
     unNotEmptyText,
     mkNotEmptyText,

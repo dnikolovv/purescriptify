@@ -1,4 +1,6 @@
 {-# LANGUAGE DataKinds #-}
+{-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE GADTs #-}
@@ -11,52 +13,43 @@
 
 module Purescriptify.API.Definition where
 
+import Data.Aeson (FromJSON, ToJSON)
 import Effectful (Eff)
 import qualified Effectful as E
 import qualified Effectful.Error.Static as ES
-import Purescriptify.API.Auth (APIUser)
-import Purescriptify.API.DomainError (DomainError)
-import qualified Purescriptify.API.DomainError as DomainError
-import Purescriptify.API.ManageUsers (ManageUsers, deleteUser, getAllUsers, getUser, newUser, updateUser)
-import Purescriptify.API.Types
+import Purescriptify.Converter (htmlToPureScript)
+import Purescriptify.Effects.FormatPureScript (FormatPureScript)
+import Purescriptify.Types (ConversionError, FormattedPureScript, HtmlInput)
 import RIO
 import Servant
-import Servant.Auth.Server
 
-type UsersAPI =
-  PublicAPI
-    :<|> ProtectedAPI
-
-type PublicAPI =
-  "users" :> Get '[JSON] [User]
-    :<|> ( "user"
-             :> ( Capture "userId" UserId :> Get '[JSON] User
-                    :<|> ReqBody '[JSON] CreateUserRequest :> Post '[JSON] User
-                    :<|> Capture "userId" UserId :> ReqBody '[JSON] UpdateUserRequest :> Put '[JSON] ()
-                )
-         )
-
-type ProtectedAPI =
-  Auth '[JWT] APIUser
-    :> ("user" :> Capture "userId" UserId :> Delete '[JSON] ())
-
-type UsersTable = IORef (HashMap UserId UserData)
+type API =
+  "convert" :> ReqBody '[JSON] ConversionRequest :> Post '[JSON] ConversionResponse
 
 server ::
-  ManageUsers E.:> es =>
-  ES.Error DomainError E.:> es =>
-  ServerT UsersAPI (Eff es)
+  FormatPureScript E.:> es =>
+  ES.Error ConversionError E.:> es =>
+  ServerT API (Eff es)
 server =
   publicServer
-    :<|> protectedServer
   where
-    publicServer =
-      getAllUsers
-        :<|> getUser
-        :<|> (\CreateUserRequest {..} -> newUser email username)
-        :<|> (\uId UpdateUserRequest {..} -> updateUser uId newEmail newUsername)
+    publicServer (ConversionRequest html) =
+      ConversionResponse <$> htmlToPureScript html
 
-    protectedServer (Authenticated _) uId = do
-      deleteUser uId
-    protectedServer _ _ =
-      ES.throwError DomainError.Unauthorized
+newtype ConversionRequest = ConversionRequest
+  { html :: HtmlInput
+  }
+  deriving (Generic)
+  deriving anyclass (ToJSON, FromJSON)
+
+newtype ConversionResponse = ConversionResponse
+  { purescript :: FormattedPureScript
+  }
+  deriving (Generic)
+  deriving anyclass (ToJSON, FromJSON)
+
+newtype KnownError = KnownError
+  { errType :: ConversionError
+  }
+  deriving (Generic)
+  deriving anyclass (ToJSON, FromJSON)

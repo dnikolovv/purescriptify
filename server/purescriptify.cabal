@@ -22,14 +22,14 @@ source-repository head
 
 library
   exposed-modules:
-      Purescriptify.API.Auth
       Purescriptify.API.CodeGen
       Purescriptify.API.Definition
-      Purescriptify.API.DomainError
-      Purescriptify.API.ManageUsers
-      Purescriptify.API.Types
-      Purescriptify.API.Types.NotEmptyText
+      Purescriptify.Converter
+      Purescriptify.Effects.FormatPureScript
       Purescriptify.Run
+      Purescriptify.Types
+      Purescriptify.Types.NotEmptyText
+      Purescriptify.Utilities
   other-modules:
       Paths_purescriptify
   hs-source-dirs:
@@ -41,12 +41,16 @@ library
   build-depends:
       aeson
     , base >=4.7 && <5
+    , bytestring
+    , casing
     , effectful
     , effectful-th
     , exceptions
+    , file-embed
     , generic-lens
     , jose
     , mtl
+    , process
     , purescript-bridge
     , random
     , rio
@@ -61,6 +65,7 @@ library
     , wai-cors
     , wai-extra
     , warp
+    , xml
   default-language: Haskell2010
 
 executable gentypes-codegen
@@ -76,12 +81,16 @@ executable gentypes-codegen
   build-depends:
       aeson
     , base >=4.7 && <5
+    , bytestring
+    , casing
     , effectful
     , effectful-th
     , exceptions
+    , file-embed
     , generic-lens
     , jose
     , mtl
+    , process
     , purescript-bridge
     , purescriptify
     , random
@@ -97,6 +106,7 @@ executable gentypes-codegen
     , wai-cors
     , wai-extra
     , warp
+    , xml
   default-language: Haskell2010
 
 executable gentypes-server-exe
@@ -112,12 +122,16 @@ executable gentypes-server-exe
   build-depends:
       aeson
     , base >=4.7 && <5
+    , bytestring
+    , casing
     , effectful
     , effectful-th
     , exceptions
+    , file-embed
     , generic-lens
     , jose
     , mtl
+    , process
     , purescript-bridge
     , purescriptify
     , random
@@ -133,6 +147,7 @@ executable gentypes-server-exe
     , wai-cors
     , wai-extra
     , warp
+    , xml
   default-language: Haskell2010
 
 test-suite gentypes-server-test
@@ -149,12 +164,16 @@ test-suite gentypes-server-test
   build-depends:
       aeson
     , base >=4.7 && <5
+    , bytestring
+    , casing
     , effectful
     , effectful-th
     , exceptions
+    , file-embed
     , generic-lens
     , jose
     , mtl
+    , process
     , purescript-bridge
     , purescriptify
     , random
@@ -170,4 +189,5 @@ test-suite gentypes-server-test
     , wai-cors
     , wai-extra
     , warp
+    , xml
   default-language: Haskell2010
