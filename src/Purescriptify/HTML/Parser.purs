@@ -1,3 +1,4 @@
+-- Courtesy of https://github.com/rnons/purescript-html-parser-halogen
 module Purescriptify.HTML.Parser
   ( HtmlNode(..)
   , Element(..)
