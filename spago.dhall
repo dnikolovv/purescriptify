@@ -6,6 +6,7 @@
   , "effect"
   , "either"
   , "foreign"
+  , "heckin"
   , "language-cst-parser"
   , "maybe"
   , "prelude"

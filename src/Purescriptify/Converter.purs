@@ -7,6 +7,7 @@ import Data.Either (Either(..))
 import Data.Maybe (Maybe(..))
 import Data.Monoid (power)
 import Data.String as String
+import Data.String.Casing (toCamelCase)
 import Data.Tuple.Nested ((/\))
 import Dodo as Dodo
 import PureScript.CST (RecoveredParserResult(..), parseModule)
@@ -104,9 +105,9 @@ renderNode = case _ of
     renderAttribute (HtmlAttribute key value) =
       toPureScriptAttributeName key <> ": " <> "\"" <> value <> "\""  
 
-    -- TODO: toSnakeCase
+    -- TODO: Handle data and aria
     toPureScriptAttributeName :: String -> String
-    toPureScriptAttributeName = case _ of
+    toPureScriptAttributeName attr = case toCamelCase attr of
       "class" -> "className"
       other -> other
 
