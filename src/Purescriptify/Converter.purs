@@ -111,7 +111,7 @@ renderNode = case _ of
       "class" -> "className"
       other -> other
 
-    unsupportedElements = ["svg"]
+    unsupportedElements = ["svg", "script", "path"]
 
 rights :: forall a b. Array (Either a b) -> Array b
 rights = Array.mapMaybe $ case _ of
