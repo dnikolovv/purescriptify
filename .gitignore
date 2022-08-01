@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+.psci_modules
 
 # testing
 /coverage
@@ -28,3 +29,4 @@ yarn-error.log*
 /output
 .spago
 .parcel-cache
+.vscode
