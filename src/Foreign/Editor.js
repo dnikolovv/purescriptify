@@ -8,5 +8,3 @@ var _ = require('prismjs/themes/prism.css');
 exports.editor_ = Editor.default;
 exports.highlight_ = highlight;
 exports.languages_ = languages;
-
-console.log(languages);

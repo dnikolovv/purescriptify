@@ -34,7 +34,9 @@ editor { value, onValueChange, padding, language, className } =
         in runEffectFn2 highlight_ code lang)
     , padding
     , textareaClassName: className
-    , style: css {}
+    , style: css {
+      minHeight: "100vh"
+    }
     }
 
 type RawEditorProps

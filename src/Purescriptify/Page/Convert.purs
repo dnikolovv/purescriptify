@@ -33,19 +33,29 @@ mkConverter = do
       $ R.section
           { className: "w-full h-screen grid grid-cols-2"
           , children:
-              [ editor
-                  { value: unHtmlInput htmlInput
-                  , onValueChange: onInputChange
-                  , padding: 24
-                  , className: "!bg-white focus:!outline-none w-full h-full"
-                  , language: HTML
+              [ R.div
+                  { className: "max-h-screen overflow-y-auto"
+                  , children:
+                      [ editor
+                          { value: unHtmlInput htmlInput
+                          , onValueChange: onInputChange
+                          , padding: 24
+                          , className: "!bg-white focus:!outline-none"
+                          , language: HTML
+                          }
+                      ]
                   }
-              , editor
-                  { value: unConvertedModule (convert htmlInput)
-                  , onValueChange: (const $ pure unit)
-                  , padding: 24
-                  , className: "!bg-slate-50 focus:!outline-none"
-                  , language: PureScript
+              , R.div
+                  { className: "max-h-screen overflow-y-auto"
+                  , children:
+                      [ editor
+                          { value: unConvertedModule (convert htmlInput)
+                          , onValueChange: (const $ pure unit)
+                          , padding: 24
+                          , className: "!bg-slate-50 focus:!outline-none"
+                          , language: PureScript
+                          }
+                      ]
                   }
               , R.a
                   { className: "fixed bottom-2 left-2 text-xs cursor-pointer"
