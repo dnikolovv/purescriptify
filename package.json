@@ -6,8 +6,8 @@
     "@fontsource/inter": "^4.5.11",
     "firebase": "^9.9.1",
     "prismjs": "^1.28.0",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-simple-code-editor": "^0.11.2",
     "url": "^0.11.0",
     "uuid": "^8.3.2",
@@ -19,7 +19,7 @@
     "build": "npx spago build",
     "bundle": "NODE_ENV=production rm -rf dist && yarn bundle:build && yarn bundle:dce && yarn bundle:parcel && yarn bundle:static",
     "bundle:static": "cp -r static/* dist",
-    "bundle:build": "npx spago build --purs-args '--codegen corefn'",
+    "bundle:build": "npx spago build",
     "bundle:dce": "zephyr -f Main.main",
     "bundle:parcel": "parcel build dev/index.html --no-source-maps",
     "css": "npx tailwindcss -i ./src/input.css -o ./src/styles.css --watch",
@@ -45,11 +45,12 @@
     "postcss": "^8.4.6",
     "prettier": "2.5.1",
     "process": "^0.11.10",
-    "purescript": "^0.14.7",
+    "purescript": "^0.15.4",
+    "spago": "^0.20.9",
     "purty": "^7.0.0",
     "querystring-es3": "^0.2.1",
     "serve-static": "^1.15.0",
     "tailwindcss": "^3.0.23",
-    "zephyr": "https://github.com/jonasbuntinx/zephyr.git"
+    "zephyr": "https://github.com/dnikolovv/zephyr.git"
   }
 }

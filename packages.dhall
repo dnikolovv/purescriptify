@@ -1,5 +1,5 @@
 let upstream =
-      https://github.com/purescript/package-sets/releases/download/psc-0.14.7-20220418/packages.dhall sha256:67cc3d4f0e8fb72bb1413ba94ddd72a3ceb0783eb725e3b22ad7568b3b581163
+      https://github.com/purescript/package-sets/releases/download/psc-0.15.4-20220805/packages.dhall sha256:c80e241af3ba62fc42284b9bc26b4c9bd4525eebe4ab0e9198c9bbeac102f656
 
 let overrides = {=}
 
@@ -99,7 +99,7 @@ let pursTidy =
       , repo =
           "https://github.com/natefaubion/purescript-tidy"
       , version =
-          "ee754b1746fe347c3dc37b19908d6be56d96fc6a"
+          "930c33cf586886880056a76357e53e3350636118"
       }
   }
 
