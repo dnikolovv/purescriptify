@@ -4229,9 +4229,9 @@ zen-observable@^0.8.14:
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"
   integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
 
-"zephyr@https://github.com/jonasbuntinx/zephyr.git":
+"zephyr@https://github.com/dnikolovv/zephyr.git":
   version "0.3.2"
-  resolved "https://github.com/jonasbuntinx/zephyr.git#3ded8f126ee3ac21b8a541c0283b36f4b4b95e1d"
+  resolved "https://github.com/dnikolovv/zephyr.git#edc344d82cee8bf6a282ba6de845fc50653bb259"
   dependencies:
     request "^2.88.0"
     tar "^4.4.8"
