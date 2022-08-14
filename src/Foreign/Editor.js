@@ -1,10 +1,12 @@
-var Editor = require('react-simple-code-editor')
-var {highlight, languages} = require("prismjs/components/prism-core");
-var _ = require('prismjs/components/prism-haskell');
-var _ = require('prismjs/components/prism-purescript');
-var _ = require('prismjs/components/prism-markup');
-var _ = require('prismjs/themes/prism.css');
+import Editor from "react-simple-code-editor"
+import { highlight, languages } from "prismjs/components/prism-core"
+import 'prismjs/components/prism-haskell'
+import 'prismjs/components/prism-purescript'
+import 'prismjs/components/prism-markup'
+import 'prismjs/themes/prism.css'
 
-exports.editor_ = Editor.default;
-exports.highlight_ = highlight;
-exports.languages_ = languages;
+export {
+  Editor as editor_,
+  highlight as highlight_,
+  languages as languages_
+}
