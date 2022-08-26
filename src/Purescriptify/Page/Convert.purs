@@ -6,7 +6,8 @@ import Data.String as String
 import Data.Tuple.Nested ((/\))
 import Effect (Effect)
 import Foreign.Editor (EditorLanguage(..), editor)
-import Purescriptify.Converter (convert, mkHtmlInput, unConvertedModule, unHtmlInput)
+import Purescriptify.ConvertToHalogen (convert, mkHtmlInput, unConvertedModule, unHtmlInput)
+-- import Purescriptify.Converter (convert, mkHtmlInput, unConvertedModule, unHtmlInput)
 import React.Basic.DOM as R
 import React.Basic.Hooks as React
 import Web.HTML (window)
@@ -21,8 +22,8 @@ mkConverter = do
   initialInput <-
     getItem sessionInputKey session
       >>= case _ of
-          Just existing -> pure (mkHtmlInput existing)
-          Nothing -> pure defaultInput
+        Just existing -> pure (mkHtmlInput existing)
+        Nothing -> pure defaultInput
   React.component "Converter" \_ -> React.do
     (htmlInput /\ setHtmlInput) <- React.useState initialInput
     let
@@ -48,7 +49,8 @@ mkConverter = do
               , R.div
                   { className: "max-h-screen overflow-y-auto"
                   , children:
-                      [ editor
+                      [ R.button {},
+                        editor
                           { value: unConvertedModule (convert htmlInput)
                           , onValueChange: (const $ pure unit)
                           , padding: 24
@@ -77,7 +79,8 @@ mkConverter = do
   where
   defaultInput =
     mkHtmlInput <<< String.trim
-      $ """
+      $
+        """
 <section class="a-class">
   <h1>Some heading</h1>
   <p>A paragraph.</p>
