@@ -52,25 +52,19 @@ convert (HtmlInput html) = do
 
   let
     moduleHeader = intercalate "\n" $ NonEmptyArray
-      [ 
-        "module PureScript where\n",
-       "import Halogen.HTML as HH"
-      -- , "import Halogen.HTML.CSS as HHC"
-      -- , "import Halogen.HTML.Core as HC"
-      -- , "import Halogen.HTML.Elements as HEL"
+      [ "module PureScript where\n"
       , "import Halogen as H"
+      , "import Halogen.HTML as HH"
       , "import Halogen.HTML.Properties as HP"
-      , "import Web.HTML.Common as WC"
-      , "import Halogen.Query.Event as HQE\n"
+      , "-- HTML starts here\n"
       ]
 
     moduleFooter = intercalate "\n" $ NonEmptyArray
-      [ "\nclass_ ∷ ∀ (a ∷ Row Type) (b ∷ Type). String → HH.IProp ( class ∷ String | a ) b"
-      , "class_ n = HP.class_ $ WC.ClassName n\n"
-      , "attr_ ∷ ∀ (a ∷ Row Type) (b ∷ Type). String → String → HH.IProp a b"
+      [ "\n-- End of HTML\n"
+      , "attr_ :: forall (a :: Row Type) (b :: Type). String -> String -> HP.IProp a b"
       , "attr_ k v = HP.attr (H.AttrName k) v\n"
-      , "classes_ ∷ ∀ (a ∷ Row Type) (b ∷ Type). Array String → HH.IProp ( class ∷ String | a ) b"
-      , "classes_ n = HP.classes $ WC.ClassName <$> n\n"
+      , "classes_ :: forall (a :: Row Type) (b :: Type). Array String -> HP.IProp ( class :: String | a ) b"
+      , "classes_ n = HP.classes $ H.ClassName <$> n\n"
       ]
 
   let
@@ -96,8 +90,7 @@ convert (HtmlInput html) = do
         <<< printModule
         <<< toDoc
         <<< formatModule defaultFormatOptions $ parsedModule
-    -- We are going to pretend that this is impossible
-    -- as we have control over the module structure
+    -- We will display the generated code anyway
     _ -> ConvertedModule assembledModule
   where
   printModule = Dodo.print Dodo.plainText
@@ -106,6 +99,9 @@ convert (HtmlInput html) = do
     , indentWidth: 2
     , indentUnit: power " " 2
     }
+
+quotes ∷ String → String
+quotes s = "\"" <> s <> "\""
 
 renderNode :: HtmlNode -> Either ConversionError String
 renderNode = case _ of
@@ -131,17 +127,20 @@ renderNode = case _ of
       contents = String.trim text
     in
       Right $
-        if contents /= "" then "HH.text " <> "\"" <> contents <> "\""
+        if contents /= "" then "HH.text " <> quotes contents
         else ""
   HtmlComment _ -> Right ""
   where
   renderAttribute :: HtmlAttribute -> String
   renderAttribute (HtmlAttribute key value) =
-    let
-      classes = split (Pattern " ") value
-      quoted = map (\x -> "\"" <> x <> "\"") classes
-    in
-      toPureScriptAttributeName key <> " [" <> joinWith ", " quoted <> "]"
+    if key == "class" then
+      let
+        classes = split (Pattern " ") value
+        quoted = map (\x -> quotes x) classes
+      in
+        toPureScriptAttributeName key <> " [" <> joinWith ", " quoted <> "]"
+    else
+      "attr_ " <> quotes key <> quotes value
 
   -- TODO: Handle data and aria
   toPureScriptAttributeName :: String -> String
